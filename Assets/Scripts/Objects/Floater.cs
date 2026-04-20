@@ -18,6 +18,13 @@ public class Floater : MonoBehaviour
 
     public float oceanHeight = 0;
 
+    public Vector3 normal = Vector3.zero;
+    public Vector3 tangent = Vector3.zero;
+    public Vector3 bitangent = Vector3.zero;
+
+
+
+
     [SerializeField] WavesParameters waves;
 
 
@@ -39,7 +46,9 @@ public class Floater : MonoBehaviour
         CalculateOceanHeight(waves.waveB);
         if (transform.position.y < oceanHeight)
         {
-            //print("si entre");
+            normal = Vector3.Cross(tangent,bitangent);
+            normal = new Vector3(Mathf.Abs(normal.x), normal.y, Mathf.Abs(normal.z));
+            transform.up = normal;
             Floating();
         }
     }
@@ -56,7 +65,17 @@ public class Floater : MonoBehaviour
     {
         float f = wave.k *(Vector2.Dot(wave.direction, new Vector2(transform.position.x, transform.position.z))- wave.c * Time.time);
 
+        tangent += new Vector3(-wave.directionX * wave.directionX * (wave.steepness * Mathf.Sin(f)),
+                    wave.directionX * (wave.steepness * Mathf.Cos(f)),
+                    -wave.directionX* wave.directionY * (wave.steepness * Mathf.Sin(f)));
+
+        bitangent += new Vector3(-wave.directionX * wave.directionY * (wave.steepness * Mathf.Sin(f)),
+                    wave.directionY * (wave.steepness * Mathf.Cos(f)),
+                    -wave.directionX* wave.directionY * (wave.steepness * Mathf.Sin(f)));
+        
+
         oceanHeight+= wave.a * Mathf.Sin(f);
+
     }
     /* void GenerateVertices()
     {
