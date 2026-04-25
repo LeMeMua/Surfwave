@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,23 +10,17 @@ public class Floater : MonoBehaviour
 {
     private Rigidbody body;
 
-    List<Vector3> vertices = new List<Vector3>();
-    List<Vector3> worldVertices = new List<Vector3>();
-
-    MeshFilter ocean;
-    Vector3[] verticesArray;
-    int objectVertex;
 
     public float oceanHeight = 0;
 
-    public Vector3 normal = Vector3.zero;
-    public Vector3 tangent = Vector3.zero;
-    public Vector3 bitangent = Vector3.zero;
+    Vector3 normal = Vector3.zero;
+    Vector3 tangent = Vector3.zero;
+    Vector3 bitangent = Vector3.zero;
 
 
 
 
-    [SerializeField] WavesParameters waves;
+    [SerializeField] WavesParameters Groupwaves;
 
 
     float displacementAmount = 2f;
@@ -35,15 +30,19 @@ public class Floater : MonoBehaviour
     void Start()
     {
         body= GetComponent<Rigidbody>();
-        waves.waveA.Precompute();
-        waves.waveB.Precompute();
+        foreach (Wave_Class wave in Groupwaves.waves)
+        {
+            wave.Precompute();
+        }
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        oceanHeight = 0;
-        CalculateOceanHeight(waves.waveA);
-        CalculateOceanHeight(waves.waveB);
+        //oceanHeight = 0;
+        foreach (Wave_Class wave in Groupwaves.waves)
+        {
+            CalculateOceanHeight(wave);
+        }
         if (transform.position.y < oceanHeight)
         {
             normal = Vector3.Cross(tangent,bitangent);

@@ -12,9 +12,9 @@ Shader "Custom/Waves"
         //_Wavelength ("Wavelength", float) = 10
         //_Speed ("Speed", float) = 10
         //_Direction ("Direction (2D)", Vector) = (1,0,0,0)
-        _WaveA("Wave A (dir, steepness, wavelength)", Vector) = (1,0,0.5,10)
-        _WaveB("Wave B", Vector) = (0.5, 0.75, 0.2, 40)
-        _WaveC("Wave C", Vector) = (0.2, 0.5, 0.05, 20)
+        _Wave0("Wave 0 (dir, steepness, wavelength)", Vector) = (1,0,0.5,10)
+        _Wave1("Wave 1", Vector) = (0.5, 0.75, 0.2, 40)
+        _Wave2("Wave 2", Vector) = (0.2, 0.5, 0.05, 20)
     }
 
     SubShader
@@ -62,9 +62,9 @@ Shader "Custom/Waves"
                 //half _Wavelength;
                 //half _Speed;
                 //float2 _Direction;
-                float4 _WaveA;
-                float4 _WaveB;
-                float4 _WaveC;
+                float4 _Wave0;
+                float4 _Wave1;
+                float4 _Wave2;
             CBUFFER_END
 
             float3 Gerstner_waves(float4 wave, float3 p, inout float3 tangent, inout float3 binormal)
@@ -85,7 +85,7 @@ Shader "Custom/Waves"
                 binormal += float3 (
                     -d.x * d.y * (steepness * sin(f)),
                     d.y * (steepness * cos(f)),
-                    -d.x * d.y * (steepness * sin(f))
+                    -d.y * d.y * (steepness * sin(f))
                 );
                 return float3(
                     d.x * (a * cos(f)),
@@ -102,8 +102,9 @@ Shader "Custom/Waves"
                 float3 binormal = float3(0,0,1);
                 float3 p = gridPoint;
 
-                p += Gerstner_waves(_WaveA, gridPoint, tangent, binormal);
-                p += Gerstner_waves(_WaveB, gridPoint, tangent, binormal);
+                p += Gerstner_waves(_Wave0, gridPoint, tangent, binormal);
+                p += Gerstner_waves(_Wave1, gridPoint, tangent, binormal);
+                p += Gerstner_waves(_Wave2, gridPoint, tangent, binormal);
                 float3 normal = normalize(cross(binormal,tangent));
                 //OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
                 OUT.positionHCS = TransformObjectToHClip(p);

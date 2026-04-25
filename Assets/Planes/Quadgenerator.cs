@@ -10,6 +10,8 @@ public class Quadgenerator : MonoBehaviour
 
     List<int> TrianglesIndices = new List<int>() ;
 
+    List<Vector2> uvs = new List<Vector2>();
+
     public int DimensionQuad = 100;
 
     //public static Action<MeshFilter> QuadGenerated;
@@ -39,6 +41,7 @@ public class Quadgenerator : MonoBehaviour
             for(int j=0; j < DimensionQuad; j++)
             {
                 Vertices.Add(new Vector3(j,0,i));
+                uvs.Add(new Vector2((float)j / (DimensionQuad - 1), (float)i / (DimensionQuad - 1)));
             }
         }
     }
@@ -60,6 +63,7 @@ public class Quadgenerator : MonoBehaviour
             TrianglesIndices.Add(rightvertex);
             TrianglesIndices.Add(bottomLvertex);
             TrianglesIndices.Add(bottomRvertex);
+
             }
             
         }
@@ -69,6 +73,7 @@ public class Quadgenerator : MonoBehaviour
     {
         DynamicQuad.SetVertices(Vertices);
         DynamicQuad.SetTriangles(TrianglesIndices, 0);
+        DynamicQuad.SetUVs(0, uvs);
         DynamicQuad.RecalculateNormals();
         DynamicQuad.RecalculateBounds();
 

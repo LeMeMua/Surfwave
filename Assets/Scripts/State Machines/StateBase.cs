@@ -12,34 +12,44 @@ public class StateBase : MonoBehaviour
 
     void Awake()
     {
-        obj = transform.parent.gameObject;
+        //obj = transform.parent.gameObject;
     }
-    public void Begin()
+    public virtual void Begin()
     {
         
     }
 
-    public void End()
+    public virtual void End()
     {
         
     }
 
-    public void OnUpdate()
+    public virtual void OnUpdate()
     {
         
     }
 
-    public void OnFixedUpdate()
+    public virtual void OnFixedUpdate()
     {
         
     }
 
-    public void OnOnEnable()
+    public virtual void OnOnEnable()
     {
         
     }
 
-    public void OnOnDisable()
+    public virtual void OnOnDisable()
+    {
+        
+    }
+
+    public virtual void OnOnDestroy()
+    {
+        
+    }
+
+    public virtual void OnAwake()
     {
         
     }

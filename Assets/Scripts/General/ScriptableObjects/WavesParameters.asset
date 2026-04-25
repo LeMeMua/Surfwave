@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff43b98c2fb1df49847968e4fd6ad59, type: 3}
   m_Name: WavesParameters
   m_EditorClassIdentifier: Assembly-CSharp::WavesParameters
-  waveA: {fileID: 11400000, guid: c80a23df49c42b04bb47079803ab3069, type: 2}
-  waveB: {fileID: 11400000, guid: 854a084e6f867c447b36e203158f5db4, type: 2}
+  waves:
+  - {fileID: 11400000, guid: c80a23df49c42b04bb47079803ab3069, type: 2}
+  - {fileID: 11400000, guid: 854a084e6f867c447b36e203158f5db4, type: 2}
