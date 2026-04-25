@@ -25,7 +25,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _GLOSSYREFLECTIONS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -37,6 +38,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -110,11 +115,13 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EnableExternalAlpha: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0.1
+    - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -127,6 +134,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Steepness: 0.723
     - _Surface: 0
+    - _UVSec: 0
     - _Wavelength: 21.42
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
@@ -136,7 +144,12 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Direction: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Wave0: {r: 1, g: 0.5, b: 0.5, a: 30}
+    - _Wave1: {r: 0.103, g: 0.103, b: 0, a: 0.1}
+    - _Wave2: {r: 0.103, g: 0.103, b: 0, a: 0.1}
     - _WaveA: {r: 1, g: 0.5, b: 0.5, a: 30}
     - _WaveB: {r: 0.103, g: 0.103, b: 0, a: 0.1}
     - _WaveC: {r: 0.2, g: 0.5, b: 0.5, a: 3.96}
