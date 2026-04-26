@@ -6,15 +6,15 @@ public class StateJumping : StateBasePlayer
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float oceanHeight = 0;
-    Rigidbody body;
+    public Rigidbody body;
     public Vector3 normal = Vector3.zero;
     Vector3 tangent = Vector3.zero;
     Vector3 bitangent = Vector3.zero;
 
     WavesParameters Groupwaves;
-
-    float animationtime = 2f;
-    float time = 0f;
+    bool isGrounded;
+    float time = 0;
+    float animationtime = 1f;
 
     Quaternion startRotation = Quaternion.identity;
 
@@ -24,10 +24,16 @@ public class StateJumping : StateBasePlayer
         body=playerObj.GetComponent<Rigidbody>();
         Groupwaves=WavesManager.instance.Groupwaves;
         startRotation= playerObj.transform.rotation;
+        time=0;
     }
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
+        CheckGround();
+        if (isGrounded)
+        {
+            stateMachine.ChangeTo("GroundingMovement");
+        }
         oceanHeight = 0;
         tangent = Vector3.zero;
         bitangent = Vector3.zero;
@@ -78,5 +84,11 @@ public class StateJumping : StateBasePlayer
         Quaternion targetrotation = Quaternion.LookRotation(forwardProjected, Vector3.up);
         
         playerObj.transform.rotation = Quaternion.Slerp(startRotation, targetrotation, t);
+    }
+
+    private void CheckGround()
+    {
+        isGrounded = Physics.Raycast(playerObj.transform.position, Vector3.down, 1.5f, WavesManager.instance.mask);
+        Debug.DrawRay(playerObj.transform.position, Vector3.down * 1.5f, isGrounded ? Color.green : Color.red);
     }
 }

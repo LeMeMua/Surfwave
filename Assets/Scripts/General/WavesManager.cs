@@ -9,12 +9,15 @@ public class WavesManager : MonoBehaviour
 
     public Material waveMovement;
 
+    public LayerMask mask;
+
     void Awake()
     {
         if (!instance)
         {
             instance=this;
         }
+        mask = LayerMask.GetMask("Ground");
     }
 
     void OnDestroy()

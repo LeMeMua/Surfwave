@@ -1,10 +1,12 @@
 using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class STMachine : MonoBehaviour
 {
     GameObject obj;
+    private readonly HashSet<StateBase> awakenedStates = new HashSet<StateBase>();
     [SerializeField] StateBase defaultState;
 
     [SerializeField] StateBase currentState;
@@ -64,6 +66,7 @@ public class STMachine : MonoBehaviour
         currentState = target.GetComponent<StateBase>();
 
         StartStateRecursive(currentState);
+        RecursiveAwake(currentState);
         RecursiveOnEnable(currentState);
     }
 
@@ -170,7 +173,11 @@ public class STMachine : MonoBehaviour
             {
                 RecursiveAwake(parent);
             }
-            state.OnAwake();
+            if (!awakenedStates.Contains(state))
+            {
+                state.OnAwake();
+                awakenedStates.Add(state);
+            }
         }      
     }
 
