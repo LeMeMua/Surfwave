@@ -3,41 +3,31 @@
     "name": "Player_Actions",
     "maps": [
         {
-            "name": "Grounding",
-            "id": "e699899e-be5b-423a-b66c-28796d05e136",
+            "name": "Hooking",
+            "id": "bfaf03b6-feb7-4023-a5a4-490cf2a8cf0f",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Right",
+                    "type": "Value",
+                    "id": "8f1906ec-a493-4ea3-86d5-9741d1aae0f9",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Forward",
                     "type": "Button",
-                    "id": "6ca676ff-0b95-460c-b544-6b3dee91e0fb",
+                    "id": "05305757-f6d2-40c3-8fe7-bb9aac0af69f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
-                    "name": "",
-                    "id": "9aef0531-8887-4b53-b8f4-750929c6856e",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Grabbing",
-            "id": "bfaf03b6-feb7-4023-a5a4-490cf2a8cf0f",
-            "actions": [
-                {
-                    "name": "New action",
+                    "name": "Throw",
                     "type": "Button",
-                    "id": "8f1906ec-a493-4ea3-86d5-9741d1aae0f9",
+                    "id": "836b2588-60ce-4b8c-bd27-c944349a3bd8",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -48,11 +38,55 @@
                 {
                     "name": "",
                     "id": "8a210ef2-774d-490c-8059-e994cf260cdd",
-                    "path": "",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": ";Keyboard",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e2033e7-f7b2-4e40-a428-49ea7b2ea3d4",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "Invert",
+                    "groups": ";Keyboard",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8593552d-cca6-4324-9783-843515f6117d",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Forward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1545ddc2-ecfb-41fe-8987-4360b38d2d30",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Forward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "610462d1-2180-43f8-b59b-51f392b2c6bd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -209,6 +243,156 @@
             ]
         },
         {
+            "name": "Grounding",
+            "id": "12d69684-d335-49b6-9c3f-d8752b2f9ca7",
+            "actions": [
+                {
+                    "name": "Forward",
+                    "type": "Value",
+                    "id": "a53cd69e-2561-4938-a9c3-e0d1aba49c2f",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Right",
+                    "type": "Value",
+                    "id": "95999634-6665-4d62-a8f3-3e557453d375",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "419af9f2-0985-405c-a341-28c6a6f9a54d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Throw",
+                    "type": "Button",
+                    "id": "4ba0603e-1e88-45b3-93cd-b1626325e7e7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "a4f14318-5aff-4d48-a357-0257ad44b0c4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveCam",
+                    "type": "Value",
+                    "id": "0b680b43-4571-4411-a24d-0428f5ca866a",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "14205715-c67f-499d-84cd-4f61bd9524d3",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Forward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1bdc5bce-4d1d-49c7-9cff-baae4303ea56",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "Invert",
+                    "groups": ";Keyboard",
+                    "action": "Forward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0a3f9d7-8c3a-40ad-aa03-fc8ad449c127",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "155818ad-f4eb-4cfa-b06f-7cc426d05d00",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "Invert",
+                    "groups": ";Keyboard",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5614a610-3dd8-4c14-8418-442e5243037a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bbe51c43-07f2-4fa8-9134-6e0ba14d4661",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "846f0043-e582-4872-af2c-d138bd20b10e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a76bd652-bf4c-436a-86e7-e78070a6fe2f",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "MoveCam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Jumping",
             "id": "435f8b92-2334-4bc3-8b04-41d6e6531190",
             "actions": [
@@ -247,6 +431,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MoveCam",
+                    "type": "Value",
+                    "id": "8a6d77bd-6d50-495d-911d-3ac5b58ddc6c",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -266,7 +459,7 @@
                     "id": "c6fe0844-cd68-4103-9e06-05f3fdb71e05",
                     "path": "<Keyboard>/s",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "Invert",
                     "groups": ";Keyboard",
                     "action": "Forward",
                     "isComposite": false,
@@ -288,7 +481,7 @@
                     "id": "6b24ba2e-2949-4a3b-b71a-ded526bd73ac",
                     "path": "<Keyboard>/a",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "Invert",
                     "groups": ";Keyboard",
                     "action": "Right",
                     "isComposite": false,
@@ -309,10 +502,21 @@
                     "name": "",
                     "id": "c06b2468-4631-4565-a0f0-02c0a7d57366",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
                     "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "74e455d4-3ed5-43d0-aa0c-5537a70a5a2e",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "MoveCam",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

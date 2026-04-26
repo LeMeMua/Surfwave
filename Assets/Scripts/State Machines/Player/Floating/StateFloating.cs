@@ -21,9 +21,6 @@ public class StateFloating : StateBasePlayer
     Quaternion rotationRef = Quaternion.identity;
     WavesParameters Groupwaves;
 
-    float time = 0;
-    float animationtime = 1.5f;
-    
     float displacementAmount = 2f;
     float depthBeforeSubmerged =0.2f;
 
@@ -75,9 +72,9 @@ public class StateFloating : StateBasePlayer
 
             //print(obj.transform.rotation.z);
         }
-        else if (playerObj.transform.position.y > oceanHeight + 1)
+        else if (playerObj.transform.position.y > maxOceanHeight + 1)
         {
-            stateMachine.ChangeTo("Jumping");
+            stateMachine.ChangeTo("JumpingMovement");
         }
         
     }
@@ -85,7 +82,7 @@ public class StateFloating : StateBasePlayer
     {
         float depth = oceanHeight - playerObj.transform.position.y;  //que tanto se va a hundir
         float displacementMultiplier = Mathf.Clamp01(depth/depthBeforeSubmerged)*displacementAmount;
-        body.AddForce(new Vector3(0f, Mathf.Abs(Physics.gravity.y)*displacementMultiplier, 0f), ForceMode.Acceleration);
+        body.AddForce(new Vector3(0f, Mathf.Abs(Physics.gravity.y)*displacementMultiplier, 0f), ForceMode.Force);
         //body.AddForce(Vector3.up*displacementMultiplier, ForceMode.Acceleration);
     }
 

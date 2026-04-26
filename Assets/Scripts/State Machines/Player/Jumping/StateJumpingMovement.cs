@@ -1,13 +1,8 @@
-
-using NUnit.Framework;
-using Unity.Cinemachine;
-using Unity.VisualScripting;
-using UnityEditor.Callbacks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 
-public class StateFloatingMovement : StateFloating
+public class StateJumpingMovement : StateJumping
 {
     #region inputdirection
     Vector3 viewDir;
@@ -31,15 +26,13 @@ public class StateFloatingMovement : StateFloating
     
     #region velocityandjump
     float rotationSpeed = 7;
-    float velocity = 15;
-
-    bool isGrounded;
-
+    float velocity = 7;
     float isJumping;
-    bool readyJump;
+
     float jumpForce;
 
     #endregion
+
     float isThrowing;
     public override void Begin()
     {
@@ -47,7 +40,6 @@ public class StateFloatingMovement : StateFloating
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         jumpForce = Mathf.Abs(100* Physics.gravity.y);
-        body.linearDamping = 1f;
     }
 
     public override void OnFixedUpdate()
@@ -58,35 +50,24 @@ public class StateFloatingMovement : StateFloating
         orientation.transform.forward = viewDir.normalized;
         inputDir = orientation.transform.forward * forwardInput + orientation.transform.right * horizontalInput;
 
-        CheckGround();
-        if (isGrounded)
-        {
-            stateMachine.ChangeTo("GroundingMovement");
-            return;
-        }
-
-        // Aiming es independiente del movimiento
-        if (isAiming == 1f)
+        
+        
+        if (isAiming==1f)
         {
             Aiming();
         }
+
         else
         {
-            // Solo resetea cámara si NO está apuntando
             stateMachine.cam.GetComponent<CinemachineCamera>().Priority = 10;
             stateMachine.aimCam.GetComponent<CinemachineCamera>().Priority = 0;
         }
 
-        if (inputDir != Vector3.zero && isAiming == 0)
+        if (inputDir!= Vector3.zero && isAiming==0)
         {
-            RotatePlayertoInput();
-            ApplyMovement();
-            SetMaxVelocity();
-        }
-
-        if (readyJump && isJumping == 1)
-        {
-            SetJumpForce();
+           RotatePlayertoInput();
+           ApplyMovement();
+           SetMaxVelocity();
         }
 
         //print(inputDir);
@@ -95,59 +76,53 @@ public class StateFloatingMovement : StateFloating
     public override void OnOnEnable()
     {
         base.OnOnEnable();
-        _inputActions.Floating.Enable();
-        Debug.Log("Floating ENABLED");
+        _inputActions.Jumping.Enable();
+        Debug.Log("Jumping ENABLED");
     }
 
     public override void OnOnDisable()
     {
         base.OnOnDisable();
-        _inputActions.Floating.Disable();
+        _inputActions.Jumping.Disable();
     }
 
     public override void OnAwake()
     {
         base.OnAwake();
         _inputActions = new Player_Actions();
-        _inputActions.Floating.Forward.performed += MovementF;
-        _inputActions.Floating.Forward.canceled += MovementF;
+        _inputActions.Jumping.Forward.performed += MovementF;
+        _inputActions.Jumping.Forward.canceled += MovementF;
 
-        _inputActions.Floating.Right.performed += MovementR;
-        _inputActions.Floating.Right.canceled += MovementR;
+        _inputActions.Jumping.Right.performed += MovementR;
+        _inputActions.Jumping.Right.canceled += MovementR;
 
-        _inputActions.Floating.Aim.performed+=Aim;
-        _inputActions.Floating.Aim.canceled+=Aim;
+        _inputActions.Jumping.Aim.performed+=Aim;
+        _inputActions.Jumping.Aim.canceled+=Aim;
 
-        _inputActions.Floating.MoveCam.performed+=GetCameraAim;
-        _inputActions.Floating.MoveCam.canceled+=GetCameraAim;
+        _inputActions.Jumping.MoveCam.performed+=GetCameraAim;
+        _inputActions.Jumping.MoveCam.canceled+=GetCameraAim;
 
-        _inputActions.Floating.Jump.performed+=Jump;
-        _inputActions.Floating.Jump.canceled+=Jump;
-
-        _inputActions.Floating.Throw.performed+=Throw;
-        _inputActions.Floating.Throw.canceled+=Throw;
+        _inputActions.Jumping.Throw.performed+=Throw;
+        _inputActions.Jumping.Throw.canceled+=Throw;
     }
 
     public override void OnOnDestroy()
     {
         base.OnOnDestroy();
-        _inputActions.Floating.Forward.performed -= MovementF;
-        _inputActions.Floating.Forward.canceled -= MovementF;
+        _inputActions.Jumping.Forward.performed -= MovementF;
+        _inputActions.Jumping.Forward.canceled -= MovementF;
 
-        _inputActions.Floating.Right.performed -= MovementR;
-        _inputActions.Floating.Right.canceled -= MovementR;
+        _inputActions.Jumping.Right.performed -= MovementR;
+        _inputActions.Jumping.Right.canceled -= MovementR;
 
-        _inputActions.Floating.Aim.performed-=Aim;
-        _inputActions.Floating.Aim.canceled-=Aim;
+        _inputActions.Jumping.Aim.performed-=Aim;
+        _inputActions.Jumping.Aim.canceled-=Aim;
 
-        _inputActions.Floating.MoveCam.performed-=GetCameraAim;
-        _inputActions.Floating.MoveCam.canceled-=GetCameraAim;
+        _inputActions.Jumping.MoveCam.performed-=GetCameraAim;
+        _inputActions.Jumping.MoveCam.canceled-=GetCameraAim;
 
-        _inputActions.Floating.Jump.performed-= Jump;
-        _inputActions.Floating.Jump.canceled-= Jump;
-
-        _inputActions.Floating.Throw.performed-=Throw;
-        _inputActions.Floating.Throw.canceled-=Throw;
+        _inputActions.Jumping.Throw.performed-=Throw;
+        _inputActions.Jumping.Throw.canceled-=Throw;
 
     }
 
@@ -171,21 +146,6 @@ public class StateFloatingMovement : StateFloating
         aimDir = context.ReadValue<Vector2>();
     }
 
-    private void Jump(InputAction.CallbackContext context)
-    {
-        isJumping = context.ReadValue<float>();
-
-        if(isJumping==1 && !readyJump)
-        {
-            readyJump = true;
-        }
-
-        if (isJumping == 0)
-        {
-            readyJump =false;
-        }
-    }
-
     private void Throw(InputAction.CallbackContext context)
     {
         isThrowing = context.ReadValue<float>();
@@ -198,12 +158,12 @@ public class StateFloatingMovement : StateFloating
                 stateMachine.cam.GetComponent<CinemachineCamera>().Priority = 0;
                 stateMachine.aimCam.GetComponent<CinemachineCamera>().Priority = 10;
             }
-        orientation.transform.position=Vector3.Lerp(orientation.transform.position, playerObj.transform.position, 0.5f);
-        yRotation-=aimDir.y*Time.fixedDeltaTime*sensY;
-        xRotation+=aimDir.x*Time.fixedDeltaTime*sensX;
-        orientation.transform.rotation= Quaternion.Euler(yRotation,xRotation,0);
-        playerObj.transform.rotation = Quaternion.Euler(0,yRotation,0);
-        if (isThrowing==1)
+            orientation.transform.position=Vector3.Lerp(orientation.transform.position, playerObj.transform.position, 0.5f);
+            yRotation-=aimDir.y*Time.fixedDeltaTime*sensY;
+            xRotation+=aimDir.x*Time.fixedDeltaTime*sensX;
+            orientation.transform.rotation= Quaternion.Euler(yRotation,xRotation,0);
+            playerObj.transform.rotation = Quaternion.Euler(0,yRotation,0);
+        if (isThrowing == 1)
         {
             stateMachine.ChangeTo("Hooking");
         }
@@ -242,6 +202,7 @@ public class StateFloatingMovement : StateFloating
     private void ApplyMovement()
     {
         Vector3 newInputDir = new Vector3(inputDir.x, 0f, inputDir.z);
+        //print(newInputDir.normalized);
         body.AddForce(newInputDir.normalized * velocity * 10, ForceMode.Force);
     }
 
@@ -255,17 +216,4 @@ public class StateFloatingMovement : StateFloating
         }
     }
 
-    private void SetJumpForce()
-    {
-        float t_jump= Mathf.Abs(Vector3.Dot(playerObj.transform.forward.normalized, Vector3.up));
-        t_jump=1-t_jump;
-        float t_height = Mathf.Clamp((oceanHeight/maxOceanHeight*maxOceanHeight/100), 0, 100);
-        body.AddForce(Vector3.up * t_jump * t_height * jumpForce, ForceMode.Impulse);
-    }
-
-    private void CheckGround()
-    {
-        isGrounded = Physics.Raycast(playerObj.transform.position, Vector3.down, 1.5f, WavesManager.instance.mask);
-        Debug.DrawRay(playerObj.transform.position, Vector3.down * 1.5f, isGrounded ? Color.green : Color.red);
-    }
 }

@@ -1,13 +1,9 @@
-
-using NUnit.Framework;
-using Unity.Cinemachine;
-using Unity.VisualScripting;
-using UnityEditor.Callbacks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Unity.Cinemachine;
 using UnityEngine.InputSystem;
+using UnityEditor.Experimental.GraphView;
 
-public class StateFloatingMovement : StateFloating
+public class StateGroundingMovement : StateGrounding
 {
     #region inputdirection
     Vector3 viewDir;
@@ -31,23 +27,22 @@ public class StateFloatingMovement : StateFloating
     
     #region velocityandjump
     float rotationSpeed = 7;
-    float velocity = 15;
-
-    bool isGrounded;
+    float velocity = 12;
 
     float isJumping;
     bool readyJump;
     float jumpForce;
 
     #endregion
+
     float isThrowing;
     public override void Begin()
     {
         base.Begin();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        jumpForce = Mathf.Abs(100* Physics.gravity.y);
-        body.linearDamping = 1f;
+        jumpForce = Mathf.Abs(5* Physics.gravity.y);
+        body.linearDamping = 3f;
     }
 
     public override void OnFixedUpdate()
@@ -58,10 +53,9 @@ public class StateFloatingMovement : StateFloating
         orientation.transform.forward = viewDir.normalized;
         inputDir = orientation.transform.forward * forwardInput + orientation.transform.right * horizontalInput;
 
-        CheckGround();
-        if (isGrounded)
+        if (!isGrounded)
         {
-            stateMachine.ChangeTo("GroundingMovement");
+            stateMachine.ChangeTo("JumpingMovement");
             return;
         }
 
@@ -84,71 +78,68 @@ public class StateFloatingMovement : StateFloating
             SetMaxVelocity();
         }
 
-        if (readyJump && isJumping == 1)
+        if (readyJump && isJumping == 1 && isGrounded)
         {
             SetJumpForce();
         }
-
-        //print(inputDir);
     }
 
     public override void OnOnEnable()
     {
         base.OnOnEnable();
-        _inputActions.Floating.Enable();
-        Debug.Log("Floating ENABLED");
+        _inputActions.Grounding.Enable();
+        Debug.Log("Grounding ENABLED");
     }
 
     public override void OnOnDisable()
     {
         base.OnOnDisable();
-        _inputActions.Floating.Disable();
+        _inputActions.Grounding.Disable();
     }
 
     public override void OnAwake()
     {
         base.OnAwake();
         _inputActions = new Player_Actions();
-        _inputActions.Floating.Forward.performed += MovementF;
-        _inputActions.Floating.Forward.canceled += MovementF;
+        _inputActions.Grounding.Forward.performed += MovementF;
+        _inputActions.Grounding.Forward.canceled += MovementF;
 
-        _inputActions.Floating.Right.performed += MovementR;
-        _inputActions.Floating.Right.canceled += MovementR;
+        _inputActions.Grounding.Right.performed += MovementR;
+        _inputActions.Grounding.Right.canceled += MovementR;
 
-        _inputActions.Floating.Aim.performed+=Aim;
-        _inputActions.Floating.Aim.canceled+=Aim;
+        _inputActions.Grounding.Aim.performed+=Aim;
+        _inputActions.Grounding.Aim.canceled+=Aim;
 
-        _inputActions.Floating.MoveCam.performed+=GetCameraAim;
-        _inputActions.Floating.MoveCam.canceled+=GetCameraAim;
+        _inputActions.Grounding.MoveCam.performed+=GetCameraAim;
+        _inputActions.Grounding.MoveCam.canceled+=GetCameraAim;
 
-        _inputActions.Floating.Jump.performed+=Jump;
-        _inputActions.Floating.Jump.canceled+=Jump;
+        _inputActions.Grounding.Jump.performed+=Jump;
+        _inputActions.Grounding.Jump.canceled+=Jump;
 
-        _inputActions.Floating.Throw.performed+=Throw;
-        _inputActions.Floating.Throw.canceled+=Throw;
+        _inputActions.Grounding.Throw.performed+=Throw;
+        _inputActions.Grounding.Throw.canceled+=Throw;
     }
 
     public override void OnOnDestroy()
     {
         base.OnOnDestroy();
-        _inputActions.Floating.Forward.performed -= MovementF;
-        _inputActions.Floating.Forward.canceled -= MovementF;
+        _inputActions.Grounding.Forward.performed -= MovementF;
+        _inputActions.Grounding.Forward.canceled -= MovementF;
 
-        _inputActions.Floating.Right.performed -= MovementR;
-        _inputActions.Floating.Right.canceled -= MovementR;
+        _inputActions.Grounding.Right.performed -= MovementR;
+        _inputActions.Grounding.Right.canceled -= MovementR;
 
-        _inputActions.Floating.Aim.performed-=Aim;
-        _inputActions.Floating.Aim.canceled-=Aim;
+        _inputActions.Grounding.Aim.performed-=Aim;
+        _inputActions.Grounding.Aim.canceled-=Aim;
 
-        _inputActions.Floating.MoveCam.performed-=GetCameraAim;
-        _inputActions.Floating.MoveCam.canceled-=GetCameraAim;
+        _inputActions.Grounding.MoveCam.performed-=GetCameraAim;
+        _inputActions.Grounding.MoveCam.canceled-=GetCameraAim;
 
-        _inputActions.Floating.Jump.performed-= Jump;
-        _inputActions.Floating.Jump.canceled-= Jump;
+        _inputActions.Grounding.Jump.performed-= Jump;
+        _inputActions.Grounding.Jump.canceled-= Jump;
 
-        _inputActions.Floating.Throw.performed-=Throw;
-        _inputActions.Floating.Throw.canceled-=Throw;
-
+        _inputActions.Grounding.Throw.performed-=Throw;
+        _inputActions.Grounding.Throw.canceled-=Throw;
     }
 
     private void MovementF(InputAction.CallbackContext context)
@@ -198,12 +189,13 @@ public class StateFloatingMovement : StateFloating
                 stateMachine.cam.GetComponent<CinemachineCamera>().Priority = 0;
                 stateMachine.aimCam.GetComponent<CinemachineCamera>().Priority = 10;
             }
-        orientation.transform.position=Vector3.Lerp(orientation.transform.position, playerObj.transform.position, 0.5f);
-        yRotation-=aimDir.y*Time.fixedDeltaTime*sensY;
-        xRotation+=aimDir.x*Time.fixedDeltaTime*sensX;
-        orientation.transform.rotation= Quaternion.Euler(yRotation,xRotation,0);
-        playerObj.transform.rotation = Quaternion.Euler(0,yRotation,0);
-        if (isThrowing==1)
+            orientation.transform.position=Vector3.Lerp(orientation.transform.position, playerObj.transform.position, 0.5f);
+            yRotation-=aimDir.y*Time.fixedDeltaTime*sensY;
+            xRotation+=aimDir.x*Time.fixedDeltaTime*sensX;
+            orientation.transform.rotation= Quaternion.Euler(yRotation,xRotation,0);
+            playerObj.transform.rotation = Quaternion.Euler(0,yRotation,0);
+        
+        if (isThrowing == 1)
         {
             stateMachine.ChangeTo("Hooking");
         }
@@ -257,15 +249,7 @@ public class StateFloatingMovement : StateFloating
 
     private void SetJumpForce()
     {
-        float t_jump= Mathf.Abs(Vector3.Dot(playerObj.transform.forward.normalized, Vector3.up));
-        t_jump=1-t_jump;
-        float t_height = Mathf.Clamp((oceanHeight/maxOceanHeight*maxOceanHeight/100), 0, 100);
-        body.AddForce(Vector3.up * t_jump * t_height * jumpForce, ForceMode.Impulse);
+        body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    private void CheckGround()
-    {
-        isGrounded = Physics.Raycast(playerObj.transform.position, Vector3.down, 1.5f, WavesManager.instance.mask);
-        Debug.DrawRay(playerObj.transform.position, Vector3.down * 1.5f, isGrounded ? Color.green : Color.red);
-    }
 }
