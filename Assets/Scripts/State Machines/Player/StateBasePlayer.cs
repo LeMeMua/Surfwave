@@ -13,7 +13,7 @@ public class StateBasePlayer : StateBase
     {
         base.Begin();
         root = obj.transform.root;
-        playerObj=root.Find("PlayerObj").gameObject;
+        playerObj=root.Find("PersonajeCompleto").gameObject;
         orientation=root.Find("Orientation").gameObject;
     }
 }
