@@ -1,9 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
-using UnityEditor.Callbacks;
 using Unity.Mathematics;
-using Mono.Cecil.Cil;
 
 public class StateHooking : StateBasePlayer
 {
