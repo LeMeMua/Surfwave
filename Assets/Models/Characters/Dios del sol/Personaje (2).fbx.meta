@@ -1,0 +1,250 @@
+fileFormatVersion: 2
+guid: 5cbc086e05c821e44bfb02083b7d2d8c
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Accesorios_Albedo
+    second: {fileID: 2800000, guid: 4b0fd7c05c4d4c84d9df9c1b5f925b31, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Accesorios_Metalness
+    second: {fileID: 2800000, guid: d18a25eda12c49d44bde7422169f7b37, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Accesorios_Normal
+    second: {fileID: 2800000, guid: 595108eb4833b6d43aa4be99f17ff328, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Accesorios_Roughness
+    second: {fileID: 2800000, guid: ed0e2c1103c8666448417c81189fbd20, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cabello_Albedo
+    second: {fileID: 2800000, guid: 84be904a70d4ca348ad8fa23a4ff4a49, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cabello_Metalness
+    second: {fileID: 2800000, guid: 0993a3d8e2b7f76469b4d0b59f5c22dd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cabello_Normal
+    second: {fileID: 2800000, guid: 0121e8947aa4a164a8ee22b81a52bf65, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cabello_Roughness
+    second: {fileID: 2800000, guid: e0146de16f634aa449b2bbd5a1eaeafe, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Capa_Albedo
+    second: {fileID: 2800000, guid: fcb9b3ac2b82c13479c4079c7b6f5cef, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Capa_Metalness
+    second: {fileID: 2800000, guid: fe11af4f46cfcfc4591be89d6c820ac0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Capa_Normal
+    second: {fileID: 2800000, guid: 5d4a0c8670b96584ba3702fdccd0d569, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Capa_Roughness
+    second: {fileID: 2800000, guid: 14b5623438b1d5247984adeb2e075200, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Falda_Albedo
+    second: {fileID: 2800000, guid: 013a93fffbe3102448825c8662fe29a8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Falda_Metalness
+    second: {fileID: 2800000, guid: c324f8a3f1944a949b9805095ed3c3b8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Falda_Normal
+    second: {fileID: 2800000, guid: fea5e022c60db314095068bf4ef77858, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Falda_Roughness
+    second: {fileID: 2800000, guid: 08ab64a7040097049a1eef22ebb67699, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Ojos_Albedo
+    second: {fileID: 2800000, guid: bd5ed99b67f4e3649a5f6c49ec4a5fd5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Ojos_Metalness
+    second: {fileID: 2800000, guid: 1adb5e68db4cccc408c7c31f50bb2031, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Ojos_Normal
+    second: {fileID: 2800000, guid: 11e46273959aceb489967d002c0357ce, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Ojos_Roughness
+    second: {fileID: 2800000, guid: e35bf965194a7d34395077ffaaf2e77d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: "Pesta\xF1as_Albedo"
+    second: {fileID: 2800000, guid: acd429bb86b13c94284e3251efe7851b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: "Pesta\xF1as_Metalness"
+    second: {fileID: 2800000, guid: b738605ffeafcef4cb51e0f5a6154cfd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: "Pesta\xF1as_Normal"
+    second: {fileID: 2800000, guid: a071f2947196fff4aa69b2dd717b94fd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: "Pesta\xF1as_Roughness"
+    second: {fileID: 2800000, guid: d25aedf7181e9b84daf9714e60ba5577, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cuerpo personaje_Albedo
+    second: {fileID: 2800000, guid: 4ea0befa9476c9b4795894f5e5f8d07d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cuerpo personaje_Metalness
+    second: {fileID: 2800000, guid: 1ca650ba9c5e6794bb7628967c89a149, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cuerpo personaje_Normal
+    second: {fileID: 2800000, guid: 0217b18ddd12ac9479aa1ad73896f736, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cuerpo personaje_Roughness
+    second: {fileID: 2800000, guid: 7e472f5d14f9a20478a51fa15c490b0b, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
