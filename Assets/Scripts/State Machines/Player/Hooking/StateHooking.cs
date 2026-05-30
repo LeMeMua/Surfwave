@@ -111,92 +111,30 @@ public class StateHooking : StateBasePlayer
         horizontalInput = context.ReadValue<float>();
     }
 
-    void startSwing()
-    {
-        
-        if(!ishitting)
-        {
-            ishitting=true;
-            if(Physics.Raycast(stateMachine.aimCam.transform.position, stateMachine.aimCam.transform.forward, out hit, maxRadio, WavesManager.instance.mask))
-            {
-                Debug.DrawLine(playerObj.transform.position, hit.point, Color.red, 60f);
-                hookPoint=hit.point;
-                body.useGravity = false;
-            }
-        }
-
-        else if (ishitting)
-        {
-            Vector3 r = playerObj.transform.position - hookPoint;
-            axis = Vector3.Cross(r, body.linearVelocity).normalized;
-            tangent = Vector3.Cross(axis, r).normalized;
-            body.angularVelocity = tangent*Vector3.Angle(axis,tangent)*8;
-        }
-        
-    }
-
-    void startSwing2()
-    {
-        if(!ishitting)
-        {
-            if(Physics.Raycast(stateMachine.aimCam.transform.position, stateMachine.aimCam.transform.forward, out hit, maxRadio, WavesManager.instance.mask))
-            {
-                ishitting=true;
-                Debug.DrawLine(playerObj.transform.position, hit.point, Color.red, 60f);
-                hookPoint=hit.point;
-                body.useGravity = false;
-                r = playerObj.transform.position - hookPoint;
-                if (body.linearVelocity.sqrMagnitude < 0.01f)
-                {
-                    axis = Vector3.Cross(r, stateMachine.aimCam.transform.right).normalized;
-                    tangent = Vector3.Cross(axis, r).normalized;
-                    reference = Quaternion.LookRotation(tangent, Vector3.up);
-
-                }
-                else
-                {
-                    axis= Vector3.Cross(r,body.linearVelocity).normalized;
-                    tangent = Vector3.Cross(axis, r).normalized;
-                    reference = Quaternion.LookRotation(tangent, Vector3.up);
-                }
-            }
-        }
-
-        if (ishitting)
-        {
-            time+=Time.fixedDeltaTime;
-            var t = Mathf.Clamp01(time/durationanimation);
-            r= Quaternion.AngleAxis(angularSpeed * Time.deltaTime, axis) * r;
-            playerObj.transform.position = Vector3.Slerp(playerObj.transform.position, hookPoint + r, Time.deltaTime* 3f);
-            //playerObj.transform.position = hookPoint + r;
-            playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, reference, t);
-            
-        }
-    }
-
     void startSwing3()
     {
         if (!isCanceled)
         {
-            if(!ishitting)
+            if (!ishitting)
             {
-                if(Physics.Raycast(stateMachine.aimCam.transform.position, stateMachine.aimCam.transform.forward, out hit, maxRadio, WavesManager.instance.mask))
+                if (Physics.Raycast(stateMachine.aimCam.transform.position, stateMachine.aimCam.transform.forward, out hit, maxRadio, WavesManager.instance.mask))
                 {
-                    ishitting=true;
+                    ishitting = true;
                     Debug.DrawLine(playerObj.transform.position, hit.point, Color.red, 60f);
-                    hookPoint=hit.point;
+                    hookPoint = hit.point;
                     body.useGravity = false;
+
                     r = playerObj.transform.position - hookPoint;
+
                     if (body.linearVelocity.sqrMagnitude < 0.01f)
                     {
                         axis = Vector3.Cross(r, stateMachine.aimCam.transform.right).normalized;
                         tangent = Vector3.Cross(axis, r).normalized;
                         reference = Quaternion.LookRotation(tangent, Vector3.up);
-
                     }
                     else
                     {
-                        axis= Vector3.Cross(r,body.linearVelocity).normalized;
+                        axis = Vector3.Cross(r, body.linearVelocity).normalized;
                         tangent = Vector3.Cross(axis, r).normalized;
                         reference = Quaternion.LookRotation(tangent, Vector3.up);
                     }
@@ -208,28 +146,24 @@ public class StateHooking : StateBasePlayer
                 time += Time.fixedDeltaTime;
                 var t = Mathf.Clamp01(time / durationanimation);
 
-                Vector3 nextR = Quaternion.AngleAxis(angularSpeed * Time.deltaTime, axis) * r;
+                Vector3 nextR = Quaternion.AngleAxis(angularSpeed * Time.fixedDeltaTime, axis) * r;
                 Vector3 targetPos = hookPoint + nextR;
 
                 Vector3 currentPos = playerObj.transform.position;
-                Vector3 dir = targetPos - currentPos;
-                float dist = dir.magnitude;
 
-                float radiusCast = 0.5f;
+                Vector3 neededVelocity = (targetPos - currentPos) / Time.fixedDeltaTime;
 
-                if (Physics.SphereCast(currentPos, radiusCast, dir.normalized, out RaycastHit hitCol, dist))
-                {
-                    isCanceled=true;
-                    return;
-                }
+                body.linearVelocity = neededVelocity;
 
                 r = nextR;
-                playerObj.transform.position = targetPos;
 
-                // rotación
-                playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, reference, t);
+                playerObj.transform.rotation = Quaternion.Slerp(
+                    playerObj.transform.rotation,
+                    reference,
+                    t
+                );
             }
-        }       
+        }
     }
 }
 
