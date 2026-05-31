@@ -10,7 +10,7 @@ public class StateGrounding : StateBasePlayer
         base.Begin();
         body=playerObj.GetComponent<Rigidbody>();
         body.linearDamping = 3;
-        body.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        body.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     public override void End()

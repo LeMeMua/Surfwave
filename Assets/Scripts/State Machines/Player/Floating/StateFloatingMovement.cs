@@ -21,10 +21,12 @@ public class StateFloatingMovement : StateFloating
     float sensY=200;
 
     float yRotation;
-
     float xRotation;
     float isAiming;
     Vector2 aimDir;
+
+    bool wasAiming;
+    float lastAimYaw;
     #endregion
     
     #region velocityandjump
@@ -51,10 +53,6 @@ public class StateFloatingMovement : StateFloating
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
-        viewDir = playerObj.transform.position - new Vector3(stateMachine.cam.transform.position.x, playerObj.transform.position.y, 
-        stateMachine.cam.transform.position.z);
-        orientation.transform.forward = viewDir.normalized;
-        inputDir = orientation.transform.forward * forwardInput + orientation.transform.right * horizontalInput;
 
         CheckGround();
         if (isGrounded)
@@ -63,31 +61,47 @@ public class StateFloatingMovement : StateFloating
             return;
         }
 
-        // Aiming es independiente del movimiento
+        if (isAiming == 0f && !wasAiming)
+        {
+            viewDir = playerObj.transform.position - new Vector3(
+                stateMachine.cam.transform.position.x,
+                playerObj.transform.position.y,
+                stateMachine.cam.transform.position.z
+            );
+
+            orientation.transform.forward = viewDir.normalized;
+        }
+
+        inputDir = orientation.transform.forward * forwardInput + orientation.transform.right * horizontalInput;
+
         if (isAiming == 1f)
         {
+            wasAiming = true;
             Aiming();
         }
         else
         {
-            // Solo resetea cámara si NO está apuntando
+            if (wasAiming)
+            {
+                ReturnFromAiming();
+                wasAiming = false;
+            }
+
             stateMachine.cam.GetComponent<CinemachineCamera>().Priority = 10;
             stateMachine.aimCam.GetComponent<CinemachineCamera>().Priority = 0;
         }
 
-        if (inputDir != Vector3.zero && isAiming == 0)
+        if (inputDir != Vector3.zero && isAiming == 0f)
         {
             RotatePlayertoInput();
             ApplyMovement();
             SetMaxVelocity();
         }
 
-        if (readyJump && isJumping == 1)
+        if (readyJump && isJumping == 1f)
         {
             SetJumpForce();
         }
-
-        //print(inputDir);
     }
 
     public override void OnOnEnable()
@@ -189,34 +203,49 @@ public class StateFloatingMovement : StateFloating
         isThrowing = context.ReadValue<float>();
     }
 
-    private void Aiming()
+        private void Aiming()
     {
         if (stateMachine.aimCam.GetComponent<CinemachineCamera>().Priority != 10)
-            {
-                stateMachine.cam.GetComponent<CinemachineCamera>().Priority = 0;
-                stateMachine.aimCam.GetComponent<CinemachineCamera>().Priority = 10;
-            }
-        orientation.transform.position=Vector3.Lerp(orientation.transform.position, playerObj.transform.position, 0.5f);
-        yRotation-=aimDir.y*Time.fixedDeltaTime*sensY;
-        xRotation+=aimDir.x*Time.fixedDeltaTime*sensX;
-        orientation.transform.rotation= Quaternion.Euler(yRotation,xRotation,0);
-        playerObj.transform.rotation = Quaternion.Euler(0,yRotation,0);
-        if (isThrowing==1)
+        {
+            stateMachine.cam.GetComponent<CinemachineCamera>().Priority = 0;
+            stateMachine.aimCam.GetComponent<CinemachineCamera>().Priority = 10;
+
+            xRotation = playerObj.transform.eulerAngles.y;
+            yRotation = 0f;
+        }
+
+        orientation.transform.position = Vector3.Lerp(
+            orientation.transform.position,
+            playerObj.transform.position,
+            0.5f
+        );
+
+        xRotation += aimDir.x * Time.fixedDeltaTime * sensX;
+
+        yRotation -= aimDir.y * Time.fixedDeltaTime * sensY;
+        yRotation = Mathf.Clamp(yRotation, -40f, 60f);
+
+        orientation.transform.rotation = Quaternion.Euler(yRotation, xRotation, 0f);
+
+        playerObj.transform.rotation = Quaternion.Euler(0f, xRotation, 0f);
+
+        lastAimYaw = xRotation;
+
+        if (isThrowing == 1f)
         {
             stateMachine.ChangeTo("Hooking");
         }
     }
 
-    /* private void RotatePlayertoInput()
+    private void ReturnFromAiming()
     {
-        Vector3 projectedInput = Vector3.ProjectOnPlane(inputDir, playerObj.transform.up);
-        
-        if (projectedInput.sqrMagnitude < 0.001f) return;
-        
-        projectedInput.Normalize();
-        playerObj.transform.forward = Vector3.Slerp(playerObj.transform.forward, projectedInput, Time.fixedDeltaTime * rotationSpeed);
-    } */
+        Quaternion yawRotation = Quaternion.Euler(0f, lastAimYaw, 0f);
 
+        orientation.transform.rotation = yawRotation;
+        playerObj.transform.rotation = yawRotation;
+
+        stateMachine.cam.transform.rotation = yawRotation;
+    }
     private void RotatePlayertoInput()
     {
 
