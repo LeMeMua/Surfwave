@@ -15,9 +15,9 @@ public class StateHooking : StateBasePlayer
     bool isCanceled;
     Rigidbody body;
 
-    float maxRadio=20f;
+    float maxRadio=50f;
     bool ishitting;
-    float angularSpeed = 360;
+    float angularSpeed = 100;
 
     float ropeLength;
     RaycastHit hit;
@@ -131,7 +131,7 @@ public class StateHooking : StateBasePlayer
                 if (Physics.Raycast(stateMachine.aimCam.transform.position, stateMachine.aimCam.transform.forward, out hit, maxRadio, WavesManager.instance.mask))
                 {
                     ishitting = true;
-                    Debug.DrawLine(playerObj.transform.position, hit.point, Color.red, 60f);
+                    Debug.DrawLine(playerObj.transform.position, hit.point, Color.black, 60f);
 
                     hookPoint = hit.point;
                     body.useGravity = false;

@@ -216,9 +216,11 @@ public class StateFloatingMovement : StateFloating
             yRotation = 0f;
         }
 
+        Vector3 aimPivot = playerObj.transform.position + Vector3.up * 1.5f;
+
         orientation.transform.position = Vector3.Lerp(
             orientation.transform.position,
-            playerObj.transform.position,
+            aimPivot,
             0.5f
         );
 
