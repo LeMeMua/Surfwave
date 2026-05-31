@@ -33,6 +33,9 @@ public class StateHooking : StateBasePlayer
 
     float durationanimation = 0.5f;
 
+    public LineRenderer hookLine;
+    public Transform hookStartPoint;
+
     public override void Begin()
     {
         base.Begin();
@@ -41,6 +44,10 @@ public class StateHooking : StateBasePlayer
         stateMachine.aimCam.GetComponent<CinemachineCamera>().Priority = 0;
         isCanceled=false;
         
+        if (hookLine != null)
+        {
+            hookLine.enabled = false;
+        }
 
         // Inicializa aquí si aún no existe
         if (_inputActions == null)
@@ -85,6 +92,10 @@ public class StateHooking : StateBasePlayer
         {
             ishitting=false;
             body.useGravity = true;
+            if (hookLine != null)
+            {
+                hookLine.enabled = false;
+            }
             time=0;
             stateMachine.ChangeTo("JumpingMovement");
         }
@@ -121,8 +132,15 @@ public class StateHooking : StateBasePlayer
                 {
                     ishitting = true;
                     Debug.DrawLine(playerObj.transform.position, hit.point, Color.red, 60f);
+
                     hookPoint = hit.point;
                     body.useGravity = false;
+
+                    if (hookLine != null)
+                    {
+                        hookLine.enabled = true;
+                        hookLine.positionCount = 2;
+                    }
 
                     r = playerObj.transform.position - hookPoint;
 
@@ -143,6 +161,14 @@ public class StateHooking : StateBasePlayer
 
             if (ishitting)
             {
+                if (hookLine != null)
+                {
+                    Vector3 start = hookStartPoint != null ? hookStartPoint.position : playerObj.transform.position;
+
+                    hookLine.SetPosition(0, start);
+                    hookLine.SetPosition(1, hookPoint);
+                }
+
                 time += Time.fixedDeltaTime;
                 var t = Mathf.Clamp01(time / durationanimation);
 
@@ -151,7 +177,16 @@ public class StateHooking : StateBasePlayer
 
                 Vector3 currentPos = playerObj.transform.position;
 
-                Vector3 neededVelocity = (targetPos - currentPos) / Time.fixedDeltaTime;
+                Vector3 dir = targetPos - currentPos;
+                float dist = dir.magnitude;
+
+                if (dist > 3f)
+                {
+                    StopSwingMovement();
+                    return;
+                }
+
+                Vector3 neededVelocity = dir / Time.fixedDeltaTime;
 
                 body.linearVelocity = neededVelocity;
 
@@ -165,5 +200,16 @@ public class StateHooking : StateBasePlayer
             }
         }
     }
+
+    void StopSwingMovement()
+    {
+        isCanceled = true;
+        ishitting = false;
+
+        body.useGravity = true;
+
+        time = 0;
+    }
+
 }
 

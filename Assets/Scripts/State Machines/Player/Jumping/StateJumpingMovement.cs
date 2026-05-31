@@ -65,6 +65,7 @@ public class StateJumpingMovement : StateJumping
         {
             wasAiming = true;
             Aiming();
+            mira.SetActive(true);
         }
         else
         {
@@ -72,6 +73,7 @@ public class StateJumpingMovement : StateJumping
             {
                 ReturnFromAiming();
                 wasAiming = false;
+                mira.SetActive(false);
             }
 
             stateMachine.cam.GetComponent<CinemachineCamera>().Priority = 10;

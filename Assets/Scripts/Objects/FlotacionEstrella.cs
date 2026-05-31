@@ -22,4 +22,16 @@ public class FlotacionEstrella : MonoBehaviour
         transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
 
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            GameManager.instance.stars += 1;
+
+            Debug.Log(GameManager.instance.stars);
+
+            Destroy(gameObject);
+        }
+    }
 }
