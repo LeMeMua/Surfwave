@@ -78,6 +78,7 @@ public class StateFloatingMovement : StateFloating
         {
             wasAiming = true;
             Aiming();
+            mira.SetActive(true);
         }
         else
         {
@@ -85,6 +86,7 @@ public class StateFloatingMovement : StateFloating
             {
                 ReturnFromAiming();
                 wasAiming = false;
+                mira.SetActive(false);
             }
 
             stateMachine.cam.GetComponent<CinemachineCamera>().Priority = 10;
