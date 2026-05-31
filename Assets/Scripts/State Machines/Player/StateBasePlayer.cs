@@ -16,8 +16,10 @@ public class StateBasePlayer : StateBase
     {
         base.Begin();
         root = obj.transform.root;
-        playerObj=root.Find("PersonajeCompleto").gameObject;
+        playerObj=root.Find("DiosLuna").gameObject;
         orientation=root.Find("Orientation").gameObject;
         mira = mira;
     }
+
+    
 }

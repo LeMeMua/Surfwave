@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -6,10 +7,16 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     bool isPaused;
+
     public int stars;
 
     public bool gameover;
     public bool winning;
+
+    public GameObject[] UI_canvas;
+    public GameObject[] end_canvas;
+
+    Player_Actions _inputActions;
 
     void Awake()
     {
@@ -20,57 +27,114 @@ public class GameManager : MonoBehaviour
         }
 
         instance = this;
+
+        _inputActions = new Player_Actions();
+        _inputActions.UI.Enable();
+
+        _inputActions.UI.Start.performed += ContinueFromEnd;
+
         DontDestroyOnLoad(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        if (_inputActions != null)
+        {
+            _inputActions.UI.Start.performed -= ContinueFromEnd;
+
+            _inputActions.UI.Disable();
+            _inputActions.Dispose();
+        }
     }
 
     void Start()
     {
-        Time.timeScale = 1f;
-        isPaused = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        ResetGame();
     }
 
     void Update()
     {
-    }
-
-    public void TogglePause()
-    {
-        isPaused = !isPaused;
-
-        if (isPaused)
+        if (stars >= 5 && !winning)
         {
-            Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            WinGame();
         }
-        else
+
+        if (stars < 0 && !gameover)
         {
-            Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            GameOver();
         }
     }
 
-    public void RestartScene()
+    void WinGame()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        winning = true;
+        Time.timeScale = 0f;
+
+        HideUICanvas();
+
+        if (end_canvas.Length > 0 && end_canvas[0] != null)
+        {
+            end_canvas[0].SetActive(true);
+        }
     }
 
-    public void LoadScene(string sceneName)
+    void GameOver()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneName);
+        gameover = true;
+        Time.timeScale = 0f;
+
+        HideUICanvas();
+
+        if (end_canvas.Length > 1 && end_canvas[1] != null)
+        {
+            end_canvas[1].SetActive(true);
+        }
     }
 
-    public void QuitGame()
+    void HideUICanvas()
     {
-        Application.Quit();
+        foreach (GameObject UI in UI_canvas)
+        {
+            if (UI != null)
+            {
+                UI.SetActive(false);
+            }
+        }
+    }
 
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+    private void ContinueFromEnd(InputAction.CallbackContext context)
+    {
+        if (winning || gameover)
+        {
+            GoToMainMenu();
+        }
+    }
+
+    void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+
+        stars = 0;
+        winning = false;
+        gameover = false;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ResetGame()
+    {
+        Time.timeScale = 1f;
+
+        isPaused = false;
+
+        stars = 0;
+        winning = false;
+        gameover = false;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

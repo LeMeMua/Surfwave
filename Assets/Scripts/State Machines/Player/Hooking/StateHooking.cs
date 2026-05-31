@@ -131,7 +131,7 @@ public class StateHooking : StateBasePlayer
                 if (Physics.Raycast(stateMachine.aimCam.transform.position, stateMachine.aimCam.transform.forward, out hit, maxRadio, WavesManager.instance.mask))
                 {
                     ishitting = true;
-                    Debug.DrawLine(playerObj.transform.position, hit.point, Color.black, 60f);
+                    Debug.DrawLine(playerObj.transform.position, hit.point, Color.black, 10f);
 
                     hookPoint = hit.point;
                     body.useGravity = false;

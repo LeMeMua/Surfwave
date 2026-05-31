@@ -62,7 +62,7 @@ public class EnemyFollowPlayer : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            GameManager.instance.stars = Mathf.Max(0, GameManager.instance.stars - 1);
+            GameManager.instance.stars-=1;
 
             Debug.Log("El enemigo tocó al jugador. Estrellas: " + GameManager.instance.stars);
 
